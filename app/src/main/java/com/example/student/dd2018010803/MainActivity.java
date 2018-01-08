@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     ListView lv;
+    String str[] = {"AA", "BB", "CCC", "DDDD", "EE"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 5;
+            return str.length;
         }
 
         @Override
@@ -40,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
+        public View getView(int position, View view, ViewGroup viewGroup) {
             TextView tv = new TextView(MainActivity.this);
-            tv.setText("Hello " + i);
+            tv.setText(str[position]);
             return tv;
         }
     }
