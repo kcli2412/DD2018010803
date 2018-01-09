@@ -2,15 +2,8 @@ package com.example.student.dd2018010803;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -70,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         mylist.add(m8);
 
         lv = (ListView) findViewById(R.id.listView);
-        MyAdapter adapter = new MyAdapter();
+        MyAdapter adapter = new MyAdapter(MainActivity.this, mylist);
         lv.setAdapter(adapter);
     }
 
@@ -85,48 +78,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         Toast.makeText(MainActivity.this, sb, Toast.LENGTH_LONG).show();
-    }
-
-    public class MyAdapter extends BaseAdapter
-    {
-
-        @Override
-        public int getCount() {
-            return mylist.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
-        }
-
-        @Override
-        public View getView(final int position, View view, ViewGroup viewGroup) {
-            LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-            View v = inflater.inflate(R.layout.myitem, null);
-
-            TextView tv = v.findViewById(R.id.textView);
-            tv.setText(mylist.get(position).get("city").toString());
-            TextView tv2 = v.findViewById(R.id.textView2);
-            tv2.setText(mylist.get(position).get("code").toString());
-            ImageView img = v.findViewById(R.id.imageView);
-            img.setImageResource(Integer.valueOf(mylist.get(position).get("image").toString()));
-
-            CheckBox chk = (CheckBox) v.findViewById(R.id.checkBox);
-            chk.setChecked(chks[position]);
-            chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    chks[position] = b;
-                }
-            });
-
-            return v;
-        }
     }
 }
