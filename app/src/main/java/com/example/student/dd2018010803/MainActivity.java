@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         mylist.add(m8);
 
         lv = (ListView) findViewById(R.id.listView);
-        MyAdapter adapter = new MyAdapter(MainActivity.this, mylist);
+        MyAdapter adapter = new MyAdapter(MainActivity.this, mylist, chks);
         lv.setAdapter(adapter);
     }
 

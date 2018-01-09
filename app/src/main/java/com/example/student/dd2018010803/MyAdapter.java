@@ -1,6 +1,7 @@
 package com.example.student.dd2018010803;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +21,13 @@ import java.util.Map;
 public class MyAdapter extends BaseAdapter {
     ArrayList<Map<String, Object>> mylist = new ArrayList<>();
     Context context;
-    boolean chks[] = new boolean[8];
+    boolean chks[];
 
-    MyAdapter(Context context, ArrayList<Map<String, Object>> mylist)
+    MyAdapter(Context context, ArrayList<Map<String, Object>> mylist, boolean chks[])
     {
         this.context = context;
         this.mylist = mylist;
+        this.chks = chks;
     }
 
     @Override
@@ -44,26 +46,44 @@ public class MyAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View view, ViewGroup viewGroup) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.myitem, null);
+    public View getView(final int position, View v, ViewGroup viewGroup) {
+        ViewHolder viewHolder;
 
-        TextView tv = v.findViewById(R.id.textView);
-        tv.setText(mylist.get(position).get("city").toString());
-        TextView tv2 = v.findViewById(R.id.textView2);
-        tv2.setText(mylist.get(position).get("code").toString());
-        ImageView img = v.findViewById(R.id.imageView);
-        img.setImageResource(Integer.valueOf(mylist.get(position).get("image").toString()));
+        if (v == null)
+        {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            v = inflater.inflate(R.layout.myitem, null);
+            viewHolder = new ViewHolder();
+            viewHolder.tv = v.findViewById(R.id.textView);
+            viewHolder.tv2 = v.findViewById(R.id.textView2);
+            viewHolder.img = v.findViewById(R.id.imageView);
+            viewHolder.chk = (CheckBox) v.findViewById(R.id.checkBox);
+            v.setTag(viewHolder);
+        }
+        else
+        {
+            viewHolder = (ViewHolder) v.getTag();
+        }
 
-        CheckBox chk = (CheckBox) v.findViewById(R.id.checkBox);
-        chk.setChecked(chks[position]);
-        chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewHolder.tv.setText(mylist.get(position).get("city").toString());
+        viewHolder.tv2.setText(mylist.get(position).get("code").toString());
+        viewHolder.img.setImageResource(Integer.valueOf(mylist.get(position).get("image").toString()));
+        viewHolder.chk.setOnCheckedChangeListener(null);
+        viewHolder.chk.setChecked(chks[position]);
+        viewHolder.chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 chks[position] = b;
             }
         });
-
         return v;
+    }
+
+    static class ViewHolder
+    {
+        TextView tv;
+        TextView tv2;
+        ImageView img;
+        CheckBox chk;
     }
 }
